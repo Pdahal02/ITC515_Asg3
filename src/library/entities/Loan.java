@@ -57,7 +57,9 @@ public class Loan implements ILoan {
 
 	@Override
 	public boolean isOverDue() {
-		// TODO Auto-generated method stub
+		 if (this.state == ELoanState.OVERDUE) {
+	            return true;
+	        }
 		return false;
 	}
 
