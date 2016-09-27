@@ -41,8 +41,7 @@ public class Book implements IBook {
 
 	@Override
 	public ILoan getLoan() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.loan;
 	}
 
 	@Override
