@@ -64,7 +64,10 @@ public class Book implements IBook {
 
 	@Override
 	public void repair() {
-		// TODO Auto-generated method stub
+		if (this.state != EBookState.DAMAGED) {
+            throw new RuntimeException(String.format("Illegal operation in state : %s", new Object[]{this.state}));
+        }
+        this.state = EBookState.AVAILABLE;
 
 	}
 
