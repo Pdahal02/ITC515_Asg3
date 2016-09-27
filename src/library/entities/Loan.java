@@ -34,9 +34,17 @@ public class Loan implements ILoan {
 
 
 	@Override
-	public void commit(int id) {
-		// TODO Auto-generated method stub
-
+	public void commit(int loanId) {
+        if (this.state != ELoanState.PENDING) {
+            throw new RuntimeException(String.format("Loan : commit : incorrect state transition  : %s -> %s\n", new Object[]{this.state, ELoanState.CURRENT}));
+        }
+        if (loanId <= 0) {
+            throw new RuntimeException(String.format("Loan : commit : id must be a positive integer  : %d\n", loanId));
+        }
+        this.id = loanId;
+        this.state = ELoanState.CURRENT;
+        this.book.borrow(this);
+        this.borrower.addLoan(this);
 	}
 
 	@Override
