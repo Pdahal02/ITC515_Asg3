@@ -56,8 +56,8 @@ public class Member implements IMember {
 
 	@Override
 	public boolean hasFinesPayable() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean b = this.totalFines > 0.0f;
+        return b;
 	}
 
 	@Override
