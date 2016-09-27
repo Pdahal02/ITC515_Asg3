@@ -73,8 +73,10 @@ public class Book implements IBook {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-
+		if (this.state != EBookState.AVAILABLE && this.state != EBookState.DAMAGED && this.state != EBookState.LOST) {
+            throw new RuntimeException(String.format("Illegal operation in state : %s", new Object[]{this.state}));
+        }
+        this.state = EBookState.DISPOSED;
 	}
 
 	@Override
