@@ -86,8 +86,7 @@ public class Book implements IBook {
 
 	@Override
 	public String getAuthor() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.author;
 	}
 
 	@Override
