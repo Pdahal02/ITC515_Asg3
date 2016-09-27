@@ -41,7 +41,10 @@ public class Member implements IMember {
 
 	@Override
 	public boolean hasOverDueLoans() {
-		// TODO Auto-generated method stub
+		for (ILoan loan : this.loanList) {
+            if (!loan.isOverDue()) continue;
+            return true;
+        }
 		return false;
 	}
 
