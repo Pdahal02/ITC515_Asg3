@@ -1,5 +1,6 @@
 package library.entities;
 
+import java.text.DateFormat;
 import java.util.Date;
 
 import library.interfaces.entities.ELoanState;
@@ -89,5 +90,13 @@ public class Loan implements ILoan {
 		return this.id;
 
 	}
+	
+	public ELoanState getState() {
+        return this.state;
+    }
+
+    public String toString() {
+        return String.format("Loan ID:  %d\nAuthor:   %s\nTitle:    %s\nBorrower: %s %s\nBorrowed: %s\nDue Date: %s", this.id, this.book.getAuthor(), this.book.getTitle(), this.borrower.getFirstName(), this.borrower.getLastName(), DateFormat.getDateInstance().format(this.borrowDate), DateFormat.getDateInstance().format(this.dueDate));
+    }
 
 }
