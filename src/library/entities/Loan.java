@@ -49,8 +49,10 @@ public class Loan implements ILoan {
 
 	@Override
 	public void complete() {
-		// TODO Auto-generated method stub
-
+		if (this.state != ELoanState.CURRENT && this.state != ELoanState.OVERDUE) {
+            throw new RuntimeException(String.format("Loan : complete : incorrect state transition  : %s -> %s\n", new Object[]{this.state, ELoanState.COMPLETE}));
+        }
+        this.state = ELoanState.COMPLETE;
 	}
 
 	@Override
