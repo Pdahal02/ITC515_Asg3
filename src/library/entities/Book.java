@@ -81,8 +81,7 @@ public class Book implements IBook {
 
 	@Override
 	public EBookState getState() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.state;
 	}
 
 	@Override
