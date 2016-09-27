@@ -46,8 +46,11 @@ public class Book implements IBook {
 
 	@Override
 	public void returnBook(boolean damaged) {
-		// TODO Auto-generated method stub
-
+		if (this.state != EBookState.ON_LOAN && this.state != EBookState.LOST) {
+            throw new RuntimeException(String.format("Illegal operation in state : %s", new Object[]{this.state}));
+        }
+        this.loan = null;
+        this.state = damaged ? EBookState.DAMAGED : EBookState.AVAILABLE;
 	}
 
 	@Override
