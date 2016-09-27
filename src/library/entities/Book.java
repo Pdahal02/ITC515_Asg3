@@ -96,8 +96,7 @@ public class Book implements IBook {
 
 	@Override
 	public String getCallNumber() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.callNumber;
 	}
 
 	@Override
