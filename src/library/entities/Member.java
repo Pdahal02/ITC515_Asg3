@@ -62,8 +62,8 @@ public class Member implements IMember {
 
 	@Override
 	public boolean hasReachedFineLimit() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean b = this.totalFines >= 10.0f;
+        return b;
 	}
 
 	@Override
