@@ -1,8 +1,8 @@
 package library.entities;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-
 import library.interfaces.entities.EMemberState;
 import library.interfaces.entities.ILoan;
 import library.interfaces.entities.IMember;
@@ -74,68 +74,87 @@ public class Member implements IMember {
 
 	@Override
 	public void addFine(float fine) {
-		// TODO Auto-generated method stub
-
+		if (fine < 0.0f) {
+            throw new RuntimeException(String.format("Member: addFine : fine cannot be negative", new Object[0]));
+        }
+        this.totalFines += fine;
+        this.updateState();
 	}
 
 	@Override
-	public void payFine(float payment) {
-		// TODO Auto-generated method stub
+    public void payFine(float payment) {
+        if (payment < 0.0f || payment > this.totalFines) {
+            throw new RuntimeException(String.format("Member: addFine : payment cannot be negative or greater than totalFines", new Object[0]));
+        }
+        this.totalFines -= payment;
+        this.updateState();
+    }
 
-	}
+    @Override
+    public void addLoan(ILoan loan) {
+        if (!this.borrowingAllowed().booleanValue()) {
+            throw new RuntimeException(String.format("Member: addLoan : illegal operation in state: %s", new Object[]{this.state}));
+        }
+        this.loanList.add(loan);
+        this.updateState();
+    }
 
-	@Override
-	public void addLoan(ILoan loan) {
-		// TODO Auto-generated method stub
+    @Override
+    public List<ILoan> getLoans() {
+        return Collections.unmodifiableList(this.loanList);
+    }
 
-	}
+    @Override
+    public void removeLoan(ILoan loan) {
+        if (loan == null || !this.loanList.contains(loan)) {
+            throw new RuntimeException(String.format("Member: removeLoan : loan is null or not found in loanList", new Object[0]));
+        }
+        this.loanList.remove(loan);
+        this.updateState();
+    }
 
-	@Override
-	public List<ILoan> getLoans() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public EMemberState getState() {
+        return this.state;
+    }
 
-	@Override
-	public void removeLoan(ILoan loan) {
-		// TODO Auto-generated method stub
+    @Override
+    public String getFirstName() {
+        return this.firstName;
+    }
 
-	}
+    @Override
+    public String getLastName() {
+        return this.lastName;
+    }
 
-	@Override
-	public EMemberState getState() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getContactPhone() {
+        return this.contactPhone;
+    }
 
-	@Override
-	public String getFirstName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getEmailAddress() {
+        return this.emailAddress;
+    }
 
-	@Override
-	public String getLastName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public int getID() {
+        return this.id;
+    }
 
-	@Override
-	public String getContactPhone() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public String toString() {
+        return String.format("Id: %d\nName: %s %s\nContact Phone: %s\nEmail: %s\nOutstanding Charges: %0.2f", this.id, this.firstName, this.lastName, this.contactPhone, this.emailAddress, Float.valueOf(this.totalFines));
+    }
 
-	@Override
-	public String getEmailAddress() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    private Boolean borrowingAllowed() {
+        boolean b = !this.hasOverDueLoans() && !this.hasReachedFineLimit() && !this.hasReachedLoanLimit();
+        return b;
+    }
 
-	@Override
-	public int getID() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+    private void updateState() {
+        this.state = this.borrowingAllowed() != false ? EMemberState.BORROWING_ALLOWED : EMemberState.BORROWING_DISALLOWED;
+    }
 }
+
+
